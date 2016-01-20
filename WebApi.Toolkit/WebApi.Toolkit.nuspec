@@ -7,6 +7,6 @@
     <description>$description$</description>
     <projectUrl>https://github.com/affecto/dotnet-WebApi.Toolkit</projectUrl>
     <tags>affecto webapi web api tools toolkit custom routes filter logger log logging error exception require https authorization</tags>
-    <releaseNotes>Moved to GitHub.</releaseNotes>
+    <releaseNotes>Added parameter logging support for ICollection.</releaseNotes>
   </metadata>
 </package>
