@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Web.Http.Controllers;
 using Affecto.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -57,7 +55,7 @@ namespace Affecto.WebApi.Toolkit.Tests
             context.ActionArguments.Add("Key1", listAsArgument);
             sut.OnActionExecuting(context);
 
-            logger.Received().LogVerbose(correlation, "Request received: {0}({1})", null, string.Format("Key1 contains items:{0}Value1{0}Value2{0}", Environment.NewLine));
+            logger.Received().LogVerbose(correlation, "Request received: {0}({1})", null, string.Format("Key1: {0}[{0}\tValue1{0}\tValue2{0}]", Environment.NewLine));
         }
         
         [TestMethod]

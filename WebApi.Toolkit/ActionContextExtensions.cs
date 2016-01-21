@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Http.Controllers;
@@ -20,17 +21,20 @@ namespace Affecto.WebApi.Toolkit
                 foreach (KeyValuePair<string, object> parameter in actionContext.ActionArguments)
                 {
                     builder.Append(parameter.Key);
+                    builder.Append(": ");
                     if (parameter.Value is ICollection)
                     {
-                        builder.AppendLine(" contains items:");
+                        builder.AppendLine();
+                        builder.AppendLine("[");
                         foreach (var listItem in (ICollection)parameter.Value)
                         {
+                            builder.Append("\t");
                             builder.AppendLine(listItem.ToString());
                         }
+                        builder.Append("]");
                     }
                     else
                     {
-                        builder.Append(": ");
                         builder.Append(parameter.Value);
                         builder.Append(ItemSeparator);
                     }
