@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Web.Http.Controllers;
 
@@ -6,6 +8,8 @@ namespace Affecto.WebApi.Toolkit
 {
     internal static class ActionContextExtensions
     {
+        private const string ItemSeparator = ", ";
+
         /// <returns>
         /// A string that represents the current parameters.
         /// </returns>
@@ -18,15 +22,30 @@ namespace Affecto.WebApi.Toolkit
                 {
                     builder.Append(parameter.Key);
                     builder.Append(": ");
-                    builder.Append(parameter.Value);
-                    builder.Append(", ");
+                    if (parameter.Value is ICollection)
+                    {
+                        builder.AppendLine();
+                        builder.AppendLine("[");
+                        foreach (var listItem in (ICollection)parameter.Value)
+                        {
+                            builder.Append("\t");
+                            builder.AppendLine(listItem.ToString());
+                        }
+                        builder.Append("]");
+                    }
+                    else
+                    {
+                        builder.Append(parameter.Value);
+                        builder.Append(ItemSeparator);
+                    }
                 }
             }
-            if (builder.Length > 2)
+            string returnValue = builder.ToString();
+            if (returnValue.EndsWith(ItemSeparator))
             {
-                builder.Remove(builder.Length - 2, 2);
+                return returnValue.Remove(returnValue.Length - ItemSeparator.Length);
             }
-            return builder.ToString();
+            return returnValue;
         }
     }
 }

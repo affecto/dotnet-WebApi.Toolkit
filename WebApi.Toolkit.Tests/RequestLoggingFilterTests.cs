@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using Affecto.Logging;
@@ -45,6 +46,19 @@ namespace Affecto.WebApi.Toolkit.Tests
         }
 
         [TestMethod]
+        public void ListArgumentsAreLogged()
+        {
+            var listAsArgument = new List<string>();
+            listAsArgument.Add("Value1");
+            listAsArgument.Add("Value2");
+
+            context.ActionArguments.Add("Key1", listAsArgument);
+            sut.OnActionExecuting(context);
+
+            logger.Received().LogVerbose(correlation, "Request received: {0}({1})", null, string.Format("Key1: {0}[{0}\tValue1{0}\tValue2{0}]", Environment.NewLine));
+        }
+        
+        [TestMethod]
         public void NullCorrelationIsLogged()
         {
             sut = new RequestLoggingFilter(loggerFactory);
@@ -53,5 +67,6 @@ namespace Affecto.WebApi.Toolkit.Tests
             sut.OnActionExecuting(context);
             logger.Received().LogVerbose(null, "Request received: {0}({1})", null, "Key1: Value1, Key2: Value2");
         }
+
     }
 }
