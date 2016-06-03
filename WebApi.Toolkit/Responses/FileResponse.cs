@@ -15,7 +15,7 @@ namespace Affecto.WebApi.Toolkit.Responses
         /// Initializes new FileResponse. Tries to parse mime-type from filename.
         /// </summary>
         /// <param name="content">File content</param>
-        /// <param name="filename">File name, should include extension for mime mapping to work.</param>
+        /// <param name="filename">File name, should include extension for mime parsing to work.</param>
         public FileResponse(Stream content, string filename)
             : this(content, filename, MimeMapping.GetMimeMapping(filename))
         {            
@@ -29,6 +29,9 @@ namespace Affecto.WebApi.Toolkit.Responses
         /// <param name="contentType">Mime content type for file</param>
         public FileResponse(Stream content, string filename, string contentType)
         {
+            // Make sure that the whole stream is returned. StreamContent's constructor uses content from the current Position of the stream.
+            content.Seek(0, SeekOrigin.Begin); 
+
             Content = new StreamContent(content);
 
             Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
