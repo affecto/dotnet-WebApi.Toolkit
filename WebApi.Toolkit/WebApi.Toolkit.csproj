@@ -25,6 +25,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Affecto.WebApi.Toolkit.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Affecto.Logging, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -56,6 +59,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
@@ -76,6 +80,8 @@
     <Compile Include="RequestExceptionFilter.cs" />
     <Compile Include="RequestLoggingFilter.cs" />
     <Compile Include="RequireHttpsAttribute.cs" />
+    <Compile Include="Responses\FileResponse.cs" />
+    <Compile Include="Responses\FileResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
