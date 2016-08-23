@@ -51,6 +51,7 @@ namespace Affecto.WebApi.Toolkit.Tests
             var loggerContext = new ExceptionLoggerContext(exceptionContext);
 
             sut.Log(loggerContext);
+
             logger.Received().LogError(correlation, exception, "Unhandled exception from request: {0}({1})", httpRequestMessage, "Key1: Value1, Key2: Value2");
         }
 
@@ -70,6 +71,27 @@ namespace Affecto.WebApi.Toolkit.Tests
 
             sut = new RequestErrorLogger(loggerFactory, request => null);
             sut.Log(loggerContext);
+
+            logger.Received().LogError(null, exception, "Unhandled exception from request: {0}({1})", httpRequestMessage, "Key1: Value1, Key2: Value2");
+        }
+
+        [TestMethod]
+        public void ErrorIsLoggedEvenIfCorrelationCannotBeRetrieved()
+        {
+            var exception = new ArgumentException("Test");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "http://www.server.domain");
+            var httpRouteData = new HttpRouteData(new HttpRoute());
+            var httpControllerContext = new HttpControllerContext(new HttpConfiguration(), httpRouteData, httpRequestMessage);
+            var actionContext = new HttpActionContext(httpControllerContext, new ReflectedHttpActionDescriptor());
+            actionContext.ActionArguments.Add("Key1", "Value1");
+            actionContext.ActionArguments.Add("Key2", "Value2");
+
+            var exceptionContext = new ExceptionContext(exception, new ExceptionContextCatchBlock("TestBlock", false, false), actionContext);
+            var loggerContext = new ExceptionLoggerContext(exceptionContext);
+
+            sut = new RequestErrorLogger(loggerFactory, request => { throw new Exception(); });
+            sut.Log(loggerContext);
+
             logger.Received().LogError(null, exception, "Unhandled exception from request: {0}({1})", httpRequestMessage, "Key1: Value1, Key2: Value2");
         }
     }

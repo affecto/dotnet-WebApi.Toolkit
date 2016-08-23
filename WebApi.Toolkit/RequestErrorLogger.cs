@@ -33,7 +33,16 @@ namespace Affecto.WebApi.Toolkit
 
         public override void Log(ExceptionLoggerContext context)
         {
-            ICorrelation correlation = correlationFactory.Invoke(context.Request);
+            ICorrelation correlation;
+
+            try
+            {
+                correlation = correlationFactory.Invoke(context.Request);
+            }
+            catch
+            {
+                correlation = null;
+            }
 
             string parameters = context.ExceptionContext.ActionContext == null ? null : context.ExceptionContext.ActionContext.ParametersToString();
             logger.LogError(correlation, context.Exception, "Unhandled exception from request: {0}({1})", context.Request, parameters);

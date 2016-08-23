@@ -7,6 +7,6 @@
     <description>$description$</description>
     <projectUrl>https://github.com/affecto/dotnet-WebApi.Toolkit</projectUrl>
     <tags>affecto webapi web api tools toolkit custom routes filter logger log logging error exception require https authorization</tags>
-    <releaseNotes>Added FileResponse and FileResult classes.</releaseNotes>
+    <releaseNotes>Allow RequestErrorLogger to log error even if correlation information cannot be retrieved.</releaseNotes>
   </metadata>
 </package>
